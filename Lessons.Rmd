@@ -1,0 +1,98 @@
+---
+title: "Lessons from R4DS"
+author: "Doug Duncan"
+date: "October 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# install pre-reqs
+
+#install.packages(c("nycflights13", "gapminder", "Lahmann"))
+pkgs <- c("tidyverse", "nycflights13", "gapminder", "Lahman")
+
+lapply(pkgs, require, character.only = T)
+
+```
+
+# Part I - EXPLORE  
+The goal of this part is to understand *data exploration*  
+
+1. Visualization  
+
+2. Transformation - Key Verbs to select, filter, create, and summarize  
+
+3. Answer questions using **transformation** and **visualization**  
+
+
+## Chap. 1 - Data Visualization with ggplot2  
+
+### First Steps  
+
+**Question to Answer** - do cars with big engines use more fuel than cars with small engines?  
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+```
+
+The *mapping* argument is always paired with aes(), and the args for aes specify the x and y values.
+
+### Exercises  
+1. Q: Run ggplot(data = mpg).  What do you see?  **Answer** - an empty plot
+
+```{r}
+ggplot(data = mpg)
+```
+
+      
+2. How many rows are in mtcars?  How many columns?  **Answer** 32 rows, 11 columns
+
+```{r}
+mtcars
+```
+
+
+3. What does the drv variable describe?  The type of drivetrain - front, rear, 4wd
+
+```{r}
+?mpg
+```
+
+4. Make a scatterplot of hwy vs cyl
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = hwy, y = cyl))
+```
+
+5. What happens if you make a scatterplot of class vs drv?  Why is the plot not useful?  **Answer** Because this creates a scatterplot from 2 categorical variables.
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = class, y = drv))
+```
+
+### Aesthetic Mappings  
+
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
