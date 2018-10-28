@@ -25,6 +25,7 @@ The goal of this part is to understand *data exploration*
 
 3. Answer questions using **transformation** and **visualization**  
 
+**Note** Answers to exercises are [here](https://jrnold.github.io/r4ds-exercise-solutions/data-visualisation.html)  
 
 ## Chap. 1 - Data Visualization with ggplot2  
 
@@ -58,7 +59,7 @@ mtcars
 3. What does the drv variable describe?  The type of drivetrain - front, rear, 4wd
 
 ```{r}
-?mpg
+# ?mpg
 ```
 
 4. Make a scatterplot of hwy vs cyl
@@ -77,15 +78,92 @@ ggplot(data = mpg) +
 
 ### Aesthetic Mappings  
 
+An **aesthetic** is a visual property of the objects in your plot.  Things like size, shape, or the color of your points.  
+
+This plot maps the colors of the points in the **class** variable to reveal the class of each car.
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```
+
+This plot maps the **size** discrete variable to the class (not recommended). 
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, size = class))
+```
 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Here, we map class to the alpha aesthetic, which controls the transparency of the points, or their shape.  
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+```
+
+
+### Exercise 1.2  
+
+1. What is wrong with the code below?  **Answer** A parenthese should be after hwy and removed from the end.  Color goes outside of aes!!
+
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+
+```
+
+
+2. Which variables in mpg are categorical?  Which are continuous?  Categorical = (manu, model, year, cyl, trans, drv, fl, class)
+
+```{r}
+str(mpg)
+```
+
+
+3. Map a continuous variable to color, size, & shape.  How are these different for categorical vs continuous variables?  **Answer** For continuous variables, there is one color with different shades of the same color.  For categorical variables, there are different colors for each categorical variable.
+
 
 ```{r cars}
-summary(cars)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = hwy, y = displ, color = cty))
+
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = hwy, y = displ, color = fl))
 ```
+
+4. What happens if you map the same variable to multiple aesthetics?  **Answer** Plot works, but does not provide any additional information.
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = hwy, y = displ, color = hwy))
+```
+
+5. What does the *stroke* aesthetic do?  What shapes does it work with? **Answer** Modifies the width of the border of shapes.  
+
+```{r}
+ggplot(data = mpg, aes(hwy, displ)) + 
+  geom_point(shape = 21, colour = "black", fill = "yellow", size = 5, stroke = 2)
+```
+
+
+6. What happens if you map an aesthetic to something other than a variable name like ase(color = displ < 5)?
+**Answer** Cool!  Shows values less than 5 in one color, >= 5 in another!
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = hwy, y = displ, color = displ < 5))
+```
+
+
+## Common Problems  
+
+
 
 ## Including Plots
 
